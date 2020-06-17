@@ -1,9 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
-
-
-
+import time
 
 
 def J(x):
@@ -152,6 +150,14 @@ x_plot = np.arange(1, 31, 1)
 x_target = []
 res_check = scipy.optimize.minimize(J, [0, 0, 0, 0, 0], method = 'CG')
 
+time_plots = []
+
+for i in range (30):
+    start = time.time()
+    CJM_DLSDL(i)
+    time_plots.append(time.time() - start)
+    
+
 
 for i in range(30):
     x_target.append(res_check.fun)
@@ -169,6 +175,25 @@ print("analytical solution", J(-1.1165  * a + b))
 plt.plot(x_plot, results_DHSDL)
 plt.plot(x_plot, results_DLSDL)
 plt.plot(x_plot, x_target)
+plt.xlabel("iteration")
+plt.ylabel("plot of J(x)")
+plt.show()
+
+plt.plot(x_plot, time_plots)
+plt.xlabel("iteration")
+plt.ylabel("time to compute DLSDL")
+plt.show()
+
+
+time_plots2 = []
+
+for i in range (30):
+    start = time.time()
+    CJM_DLSDL(i)
+    time_plots2.append(time.time() - start)
+    
+plt.plot(x_plot, time_plots2)
+plt.xlabel("iteration")
+plt.ylabel("time to compute DHSDL")
 plt.show()
         
-    
